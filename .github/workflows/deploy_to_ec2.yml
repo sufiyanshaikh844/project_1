@@ -3,24 +3,24 @@ name: Deploy to AWS EC2
 on:
   push:
     branches:
-      - main  # Change to your branch if it's not 'main' (e.g., 'master' or 'develop')
+      - main
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest  # GitHub's runner machine
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy to EC2 via SSH
-        uses: appleboy/ssh-action@v1.0.3  # Reliable SSH action
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
+          username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            cd ~/project_`1
-            git pull 
-            docker restart wine-app
+            cd project_1
+            git pull
+            sudo docker restart wine-app
